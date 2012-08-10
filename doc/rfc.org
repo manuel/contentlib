@@ -11,7 +11,7 @@ identified by their account name.
 
 *** UA->EX: Get Challenge Token From Server
 
-=GET http://exchange.example.net/challenge-token?acct=foo@example.com=
+=POST http://exchange.example.net/challenge-token?acct=foo@example.com=
 
 With this request, the user agent indicates that it wants an
 authorization token for reading messages addressed to the given
@@ -21,8 +21,8 @@ account from the exchange.
 
 =bcf06fc78eb83da8bd8ac4f4aa20874d7bac5231=
 
-The exchange returns a random string, the challenge token, to the user
-agent, which it needs to store on the account's storage server.
+The exchange returns an opaque string, the challenge token, to the
+user agent, which it needs to store on the account's storage server.
 
 The exchange temporarily remembers the account and challenge token.
 
@@ -30,10 +30,13 @@ The exchange temporarily remembers the account and challenge token.
 
 =PUT http://example.com/~foo/challenge-tokens/69405782bacf0a1ecb5121973db58794db77dffd=
 
-PUT content: =bcf06fc78eb83da8bd8ac4f4aa20874d7bac5231=
+PUT content: =hash(bcf06fc78eb83da8bd8ac4f4aa20874d7bac5231)=
 
 The user agent stores the challenge token on a location with a fresh
 random name on the storage server.
+
+The challenge token is one-way hashed, so that an attacker with read
+access to the file cannot prove ownership to the exchange.
 
 *** UA->EX: Prove Ownership of Storage Server
 
@@ -46,14 +49,15 @@ POST /prove-ownership
 
 To prove ownership of the storage server, the user agent sends to the
 exchange the account, the challenge token, and the location where it
-has stored the challenge token.
+has stored the hashed challenge token.
 
 *** EX->UA: Return Authorization Token
 
 =246f2841c18cd54de2809197da73c2e5fc6b965d=
 
 The exchange checks that is has recently given out this challenge
-token for this account, and fetches the challenge token from the
-peer-indicated location on the account, verifying that it matches.  If
-these conditions are true, it returns the authorization token to the
-peer, giving it access to messages on the exchange sent to it.
+token for this account, and fetches the hashed challenge token from
+the peer-indicated location on the account, verifying that the hash
+matches the challenge token.  If these conditions are true, it returns
+the authorization token to the peer, giving it access to messages on
+the exchange sent to it.
