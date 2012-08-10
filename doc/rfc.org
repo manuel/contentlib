@@ -47,7 +47,7 @@ access to the file cannot prove ownership to the exchange.
 *** UA->EX: Prove Ownership of Storage Server
 
 #+BEGIN_EXAMPLE
-POST /prove-ownership
+POST http://exchange.example.net/prove-ownership
        ?acct=foo@example.com
        &challenge=bcf06fc78eb83da8bd8ac4f4aa20874d7bac5231
        &location=/challenge-tokens/69405782bacf0a1ecb5121973db58794db77dffd
