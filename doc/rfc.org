@@ -54,6 +54,6 @@ has stored the challenge token.
 
 The exchange checks that is has recently given out this challenge
 token for this account, and fetches the challenge token from the
-peer-indicated storage servers, verifying that it matches.  If these
-conditions are true, it returns the authorization token to the peer,
-giving it access to messages on the exchange sent to it.
+peer-indicated location on the account, verifying that it matches.  If
+these conditions are true, it returns the authorization token to the
+peer, giving it access to messages on the exchange sent to it.
