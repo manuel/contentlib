@@ -1,0 +1,59 @@
+#+TITLE: Contentlib
+
+* Protocol Flows
+
+** Exchange Authorization
+
+For retrieving messages addressed to a peer from an exchange, the
+peer's user agent needs an authorization token.  They receive it from
+the exchange after they prove that they own the storage location
+identified by their account name.
+
+*** UA->EX: Get Challenge Token From Server
+
+=GET http://exchange.example.net/challenge-token?acct=foo@example.com=
+
+With this request, the user agent indicates that it wants an
+authorization token for reading messages addressed to the given
+account from the exchange.
+
+*** EX->UA: Return Challenge Token
+
+=bcf06fc78eb83da8bd8ac4f4aa20874d7bac5231=
+
+The exchange returns a random string, the challenge token, to the user
+agent, which it needs to store on the account's storage server.
+
+The exchange temporarily remembers the account and challenge token.
+
+*** UA->SS: Store Challenge Token on Storage Server
+
+=PUT http://example.com/~foo/challenge-tokens/69405782bacf0a1ecb5121973db58794db77dffd=
+
+PUT content: =bcf06fc78eb83da8bd8ac4f4aa20874d7bac5231=
+
+The user agent stores the challenge token on a location with a fresh
+random name on the storage server.
+
+*** UA->EX: Prove Ownership of Storage Server
+
+#+BEGIN_EXAMPLE
+POST /prove-ownership
+       ?acct=foo@example.com
+       &challenge=bcf06fc78eb83da8bd8ac4f4aa20874d7bac5231
+       &location=/challenge-tokens/69405782bacf0a1ecb5121973db58794db77dffd
+#+END_EXAMPLE
+
+To prove ownership of the storage server, the user agent sends to the
+exchange the account, the challenge token, and the location where it
+has stored the challenge token.
+
+*** EX->UA: Return Authorization Token
+
+=246f2841c18cd54de2809197da73c2e5fc6b965d=
+
+The exchange checks that is has recently given out this challenge
+token for this account, and fetches the challenge token from the
+peer-indicated storage servers, verifying that it matches.  If these
+conditions are true, it returns the authorization token to the peer,
+giving it access to messages on the exchange sent to it.
