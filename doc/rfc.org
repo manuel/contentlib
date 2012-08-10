@@ -10,25 +10,24 @@ account.  Other peers send messages to an exchange the peer uses (with
 a yet to be determined protocol), and the peer later retrieves them
 from the exchange.
 
-For retrieving messages addressed to a peer from an exchange, the
-peer's user agent needs an authorization token.  They receive it from
-the exchange after they prove that they own the storage location
-identified by their account name.
+For retrieving messages addressed to an account from an exchange, the
+peer's user agent needs an authorization token.  For getting an
+authorization token, it needs to prove to the exchange that it owns
+the remoteStorage location identified by the account.
 
 *** UA->EX: Get Challenge Token From Server
 
 =POST http://exchange.example.net/challenge-token?acct=foo@example.com=
 
-With this request, the user agent indicates that it wants an
-authorization token for reading messages addressed to the given
-account from the exchange.
+With this request, the user agent indicates that it wants a challenge
+token, thereby starting the authorization process.
 
 *** EX->UA: Return Challenge Token
 
 =bcf06fc78eb83da8bd8ac4f4aa20874d7bac5231=
 
-The exchange returns an opaque string, the challenge token, to the
-user agent, which it needs to store on the account's storage server.
+The exchange returns the challenge token, an opaque string, to the
+user agent, which it needs to store on the account's remoteStorage.
 
 The exchange temporarily remembers the account and challenge token.
 
