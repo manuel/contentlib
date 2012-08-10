@@ -4,6 +4,12 @@
 
 ** Exchange Authorization
 
+A peer uses an exchange for receiving messages.  They could indicate
+which exchange(s) they use in a well-known file in their remoteStorage
+account.  Other peers send messages to an exchange the peer uses (with
+a yet to be determined protocol), and the peer later retrieves them
+from the exchange.
+
 For retrieving messages addressed to a peer from an exchange, the
 peer's user agent needs an authorization token.  They receive it from
 the exchange after they prove that they own the storage location
@@ -55,7 +61,7 @@ has stored the hashed challenge token.
 
 =246f2841c18cd54de2809197da73c2e5fc6b965d=
 
-The exchange checks that is has recently given out this challenge
+The exchange checks that it has recently given out this challenge
 token for this account, and fetches the hashed challenge token from
 the peer-indicated location on the account, verifying that the hash
 matches the challenge token.  If these conditions are true, it returns
