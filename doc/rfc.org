@@ -15,9 +15,15 @@ peer's user agent needs an authorization token.  For getting an
 authorization token, it needs to prove to the exchange that it owns
 the remoteStorage location identified by the account.
 
+The following examples show how the peer with the account
+=foo@example.com= proves to =exchange.example.net= that it owns
+=foo@example.com= account, and is therefore authorized to read
+messages addressed to =foo@example.com= that are stored on
+=exchange.example.net=.
+
 *** UA->EX: Get Challenge Token From Server
 
-=POST http://exchange.example.net/challenge-token?acct=foo@example.com=
+=POST https://exchange.example.net/challenge-token?acct=foo@example.com=
 
 With this request, the user agent indicates that it wants a challenge
 token, thereby starting the authorization process.
@@ -33,7 +39,7 @@ The exchange temporarily remembers the account and challenge token.
 
 *** UA->SS: Store Challenge Token on Storage Server
 
-=PUT http://example.com/~foo/challenge-tokens/69405782bacf0a1ecb5121973db58794db77dffd=
+=PUT https://example.com/~foo/challenge-tokens/69405782bacf0a1ecb5121973db58794db77dffd=
 
 PUT content: =hash(bcf06fc78eb83da8bd8ac4f4aa20874d7bac5231)=
 
@@ -46,7 +52,7 @@ access to the file cannot prove ownership to the exchange.
 *** UA->EX: Prove Ownership of Storage Server
 
 #+BEGIN_EXAMPLE
-POST http://exchange.example.net/prove-ownership
+POST https://exchange.example.net/prove-ownership
        ?acct=foo@example.com
        &challenge=bcf06fc78eb83da8bd8ac4f4aa20874d7bac5231
        &location=/challenge-tokens/69405782bacf0a1ecb5121973db58794db77dffd
