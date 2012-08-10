@@ -16,10 +16,9 @@ authorization token, it needs to prove to the exchange that it owns
 the remoteStorage location identified by the account.
 
 The following examples show how the peer with the account
-=foo@example.com= proves to =exchange.example.net= that it owns
-=foo@example.com= account, and is therefore authorized to read
-messages addressed to =foo@example.com= that are stored on
-=exchange.example.net=.
+=foo@example.com= proves to =exchange.example.net= that it owns the
+account, and is therefore authorized to read messages addressed to
+=foo@example.com= that are stored on =exchange.example.net=.
 
 *** UA->EX: Get Challenge Token From Server
 
